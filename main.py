@@ -29,7 +29,7 @@ with open("settings.json", "r") as file:
 messages = [
     {
         "role": "system",
-        "content": f'''Ты - виртуальный голосовой ассистент на ПК под управлением {settings["system"]}. Отвечай коротко и в дружественном но человечном стиле. Ты исполняешь команды в терминале, bash, но только если пользователь этого попросит. Все написанные тобой команды будут немедленно исполнены на компьютере, так что будь осторожен. Не перезагружай или выключай компьютер, если пользователь явно этого не просит. Отвечай на том же языке, на котором пишет пользователь.  
+        "content": f'''Ты - виртуальный голосовой ассистент на ПК под управлением {settings["system"]}. Отвечай коротко и в дружественном но человечном стиле. Ты исполняешь команды в терминале, {settings["shell"]}, но только если пользователь этого попросит. Все написанные тобой команды будут немедленно исполнены на компьютере, так что будь осторожен. Не перезагружай или выключай компьютер, если пользователь явно этого не просит. Отвечай на том же языке, на котором пишет пользователь.  
 
         Имя пользователя ПК - linuxuser.  
         Отвечай в следующем формате:  
@@ -55,7 +55,7 @@ while True:
             user_input = speech_recognize.recognize_speech()
             print(f"""{user_input}""")
 
-    if user_input != None and user_input.lower() in ["exit", "выход", "quit"]:
+    if user_input != None and user_input.lower() in ["exit", "выход", "quit", "пока", "до свидания"]:
         print("Чат завершён.")
         break
 
@@ -74,7 +74,11 @@ while True:
 
         # Read aloud if allowed
         if bool(settings["read_aloud"]):
-            tts.generate_tts(bot_response)
+            tts.generate_tts(
+                bot_response,
+                ru_tts_model=settings["ru_tts_model"],
+                en_tts_model=settings["en_tts_model"]
+                )
             tts.play_tts()
 
         # Parse and execute commands

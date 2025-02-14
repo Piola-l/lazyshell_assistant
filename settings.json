@@ -1,9 +1,12 @@
 {
   "input_mode": "voice",
-  "read_aloud":"True",
+  "read_aloud": "True",
   "language": "ru",
   "system": "Fedora Linux",
+  "shell": "bash",
   "root_password": "1111",
   "execute_root_automatically": "True",
-  "subprocess_terminal": "True"
+  "subprocess_terminal": "True",
+  "en_tts_model": "en_GB-alan-medium.onnx",
+  "ru_tts_model": "ru_RU-dmitri-medium.onnx"
 }
