@@ -59,24 +59,25 @@ while True:
         print("Чат завершён.")
         break
 
-    messages.append({"role": "user", "content": user_input})  # Добавляем сообщение пользователя
+    if user_input != "":
+        messages.append({"role": "user", "content": user_input})  # Добавляем сообщение пользователя
 
-    completion = client.chat.completions.create(
-        model="google/gemini-2.0-flash-lite-preview-02-05:free",
-        messages=messages  # Отправляем всю историю
-    )
+        completion = client.chat.completions.create(
+            model="google/gemini-2.0-flash-lite-preview-02-05:free",
+            messages=messages  # Отправляем всю историю
+        )
 
-    bot_response = completion.choices[0].message.content  # Ответ бота
-    print("Бот:", bot_response)
+        bot_response = completion.choices[0].message.content  # Ответ бота
+        print("Бот:", bot_response)
 
-    messages.append({"role": "assistant", "content": bot_response})  # Добавляем ответ в историю
+        messages.append({"role": "assistant", "content": bot_response})  # Добавляем ответ в историю
 
-    # Read aloud if allowed
-    if bool(settings["read_aloud"]):
-        tts.generate_tts(bot_response)
-        tts.play_tts()
+        # Read aloud if allowed
+        if bool(settings["read_aloud"]):
+            tts.generate_tts(bot_response)
+            tts.play_tts()
 
-    # Parse and execute commands
-    commands = parser.parse(bot_response, root_password=settings["root_password"], auto_execute_root=bool(settings["execute_root_automatically"]))
-    parser.execute(commands, execute=True, subprocess_terminal=bool(settings["subprocess_terminal"]))
+        # Parse and execute commands
+        commands = parser.parse(bot_response, root_password=settings["root_password"], auto_execute_root=bool(settings["execute_root_automatically"]))
+        parser.execute(commands, execute=True, subprocess_terminal=bool(settings["subprocess_terminal"]))
 
