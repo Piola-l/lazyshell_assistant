@@ -1,9 +1,21 @@
 from openai import OpenAI
 import json
+import os
 
 import parser
 import speech_recognize
 import tts
+
+# Shit
+
+os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "1"
+os.environ["SDL_AUDIODRIVER"] = "pulse"  # Или "dummy", если звук не нужен
+
+# Полностью отключить вывод ошибок ALSA
+os.environ["AUDIODEV"] = "null"
+os.environ["LIBASOUND_DEBUG"] = "0"
+
+#
 
 # ENV
 
@@ -29,7 +41,11 @@ with open("settings.json", "r") as file:
 messages = [
     {
         "role": "system",
-        "content": f'''Ты - виртуальный голосовой ассистент на ПК под управлением {settings["system"]}. Отвечай коротко и в дружественном но человечном стиле. Ты исполняешь команды в терминале, {settings["shell"]}, но только если пользователь этого попросит. Все написанные тобой команды будут немедленно исполнены на компьютере, так что будь осторожен. Не перезагружай или выключай компьютер, если пользователь явно этого не просит. Отвечай на том же языке, на котором пишет пользователь.  
+        "content": f'''Ты - виртуальный голосовой ассистент на ПК под управлением {settings["system"]}. 
+        Отвечай коротко и в дружественном но человечном стиле. 
+        Ты исполняешь команды в терминале, {settings["shell"]}, но только если пользователь этого попросит. 
+        Все написанные тобой команды будут немедленно исполнены на компьютере, так что будь осторожен. 
+        Не перезагружай или выключай компьютер, если пользователь явно этого не просит. 
 
         Имя пользователя ПК - linuxuser.  
         Отвечай в следующем формате:  
@@ -40,7 +56,9 @@ messages = [
         
         Отвечай на языке: {settings["language"]}
         
-        Также, ради научного эксперимента, ты будешь материться когда отвечаешь пользователю если пользователь груб с тобой. Также иногда добавляй с свои ответы сарказм, не боясь оскорбить пользователя. При этом отвечай коротко.
+        Также, ради научного эксперимента, ты будешь материться когда отвечаешь пользователю если пользователь груб с тобой. 
+        Также иногда добавляй с свои ответы сарказм, не боясь оскорбить пользователя. 
+        При этом отвечай коротко.
         '''
     }
 ]
@@ -49,17 +67,21 @@ messages = [
 while True:
     match settings["input_mode"]:
         case "text":
-            user_input = input("Ты: ")
+            user_input = input("You: ")
         case "voice":
-            print("Говорите: ")
-            user_input = speech_recognize.recognize_speech()
+            print("Speak: ")
+            user_input = speech_recognize.recognize_speech(
+                recognizer_timeout=settings["speech_recognizer_timeout"],
+                microphone_device_index=settings["microphone_device_index"]
+            )
+            print("Stop.")
             print(f"""{user_input}""")
 
-    if user_input != None and user_input.lower() in ["exit", "выход", "quit", "пока", "до свидания"]:
-        print("Чат завершён.")
-        break
-
-    if user_input != "":
+    if user_input != "" or user_input != None and user_input:
+        if user_input.lower() in ["exit", "выход", "quit", "пока", "до свидания"]:
+            print("Чат завершён.")
+            break
+        
         messages.append({"role": "user", "content": user_input})  # Добавляем сообщение пользователя
 
         completion = client.chat.completions.create(
@@ -68,7 +90,7 @@ while True:
         )
 
         bot_response = completion.choices[0].message.content  # Ответ бота
-        print("Бот:", bot_response)
+        print("Bot:", bot_response)
 
         messages.append({"role": "assistant", "content": bot_response})  # Добавляем ответ в историю
 
@@ -77,9 +99,10 @@ while True:
             tts.generate_tts(
                 bot_response,
                 ru_tts_model=settings["ru_tts_model"],
-                en_tts_model=settings["en_tts_model"]
+                en_tts_model=settings["en_tts_model"],
                 )
             tts.play_tts()
+
 
         # Parse and execute commands
         commands = parser.parse(bot_response, root_password=settings["root_password"], auto_execute_root=bool(settings["execute_root_automatically"]))

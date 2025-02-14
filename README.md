@@ -17,6 +17,12 @@ Supports **gnome-terminal** and **phyxis** terminal, but you can easily add your
 - execute*root_automatically - Will execute \_sudo* commands without asking to enter password
 - subprocess_terminal - Open terminal as a new task or not (Hightly reccomend set to "True")
 - en/ru_tts_model - Paste here your .ottx TTS model file(From *piper* directory). You can download models and their configurations [here](https://github.com/rhasspy/piper/blob/master/VOICES.md).
+- speech_recognizer_timeout - Speech recognition timeout when user says nothing.
+- Index of microphone device. You can check your microphone index by running `arecord -l` (card X) or 
+```python
+import sounddevice as sd
+print(sd.query_devices())
+```
 
 
 ### Additional Features

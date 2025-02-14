@@ -2,7 +2,6 @@ import re
 import os
 import subprocess
 
-# Supported terminals
 terminal = '/usr/bin/ptyxis'  # Используй терминал, который у тебя установлен
 
 def parse(input_str: str, root_password: str, auto_execute_root: bool):
