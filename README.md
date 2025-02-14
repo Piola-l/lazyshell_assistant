@@ -11,19 +11,21 @@ Supports **gnome-terminal** and **phyxis** terminal, but you can easily add your
 - input_mode - Voice or text
 - read_aloud - Will be model asnwers voiced
 - language - Model answers language
+- model - Answers LLM. Find more models at https://openrouter.ai/models?max_price=0.
 - system - Your system
 - shell - Your shell
 - root_password - Password for superuser. Won`t be given to model.
 - execute*root_automatically - Will execute \_sudo* commands without asking to enter password
 - subprocess_terminal - Open terminal as a new task or not (Hightly reccomend set to "True")
-- en/ru_tts_model - Paste here your .ottx TTS model file(From *piper* directory). You can download models and their configurations [here](https://github.com/rhasspy/piper/blob/master/VOICES.md).
+- en/ru_tts_model - Paste here your .ottx TTS model file(From _piper_ directory). You can download models and their configurations [here](https://github.com/rhasspy/piper/blob/master/VOICES.md).
 - speech_recognizer_timeout - Speech recognition timeout when user says nothing.
-- Index of microphone device. You can check your microphone index by running `arecord -l` (card X) or 
+- Index of microphone device. You can check your microphone index by running `arecord -l` (card X) or
+
 ```python
 import sounddevice as sd
 print(sd.query_devices())
 ```
 
-
 ### Additional Features
+
 - Say something from **["exit", "выход", "quit", "пока", "до свидания"]** to exit assistant.

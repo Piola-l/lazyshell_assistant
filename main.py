@@ -85,7 +85,7 @@ while True:
         messages.append({"role": "user", "content": user_input})  # Добавляем сообщение пользователя
 
         completion = client.chat.completions.create(
-            model="google/gemini-2.0-flash-lite-preview-02-05:free",
+            model=settings["model"],
             messages=messages  # Отправляем всю историю
         )
 

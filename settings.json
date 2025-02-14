@@ -2,6 +2,7 @@
   "input_mode": "voice",
   "read_aloud": "True",
   "language": "ru",
+  "model": "google/gemini-2.0-flash-lite-preview-02-05:free",
   "system": "Fedora Linux",
   "shell": "bash",
   "root_password": "1111",
