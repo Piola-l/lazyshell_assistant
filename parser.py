@@ -1,12 +1,8 @@
 import re
 import os
+import subprocess
 
-'''
-Supported terminals:
-gnome-terminal
-ptyxis
-'''
-
+# Supported terminals
 terminal = '/usr/bin/ptyxis'  # Используй терминал, который у тебя установлен
 
 def parse(input_str: str, root_password: str, auto_execute_root: bool):
@@ -29,11 +25,17 @@ def parse(input_str: str, root_password: str, auto_execute_root: bool):
 
     return commands
 
-def execute(commands, execute: bool):
+def execute(commands, execute: bool, subprocess_terminal: bool):
     for cmd in commands:
         if execute:
             match terminal[9:]:
                 case "gnome-terminal":
-                    os.system(f"gnome-terminal -- bash -c '{cmd}; exec bash'")  # Открываем команду в терминале
+                    if subprocess_terminal:
+                        subprocess.Popen(["gnome-terminal", "--", "bash", "-c", f"{cmd}; exec bash"])  # Open terminal as new task
+                    else:
+                        os.system(f"gnome-terminal -- bash -c '{cmd}; exec bash'")  # Open terminal
                 case "ptyxis":
-                    os.system(f"ptyxis -- bash -c '{cmd}; exec bash'")  # Открываем команду в терминале
+                    if subprocess_terminal:
+                        subprocess.Popen([terminal, "--", "bash", "-c", f"{cmd}; exec bash"])  # Open terminal as new task
+                    else:
+                        os.system(f"{terminal} -- bash -c '{cmd}; exec bash'")  # Open terminal

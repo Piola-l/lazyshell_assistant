@@ -54,11 +54,8 @@ while True:
             print("Говорите: ")
             user_input = speech_recognize.recognize_speech()
             print(f"""{user_input}""")
-        case _:
-            print("Error")
-            break
 
-    if user_input.lower() in ["exit", "выход", "quit"]:
+    if user_input != None and user_input.lower() in ["exit", "выход", "quit"]:
         print("Чат завершён.")
         break
 
@@ -74,10 +71,12 @@ while True:
 
     messages.append({"role": "assistant", "content": bot_response})  # Добавляем ответ в историю
 
-    # Parse and execute commands
-    commands = parser.parse(bot_response, root_password=settings["root_password"], auto_execute_root=bool(settings["execute_root_automatically"]))
-    parser.execute(commands, execute=True)
-    
+    # Read aloud if allowed
     if bool(settings["read_aloud"]):
         tts.generate_tts(bot_response)
         tts.play_tts()
+
+    # Parse and execute commands
+    commands = parser.parse(bot_response, root_password=settings["root_password"], auto_execute_root=bool(settings["execute_root_automatically"]))
+    parser.execute(commands, execute=True, subprocess_terminal=bool(settings["subprocess_terminal"]))
+

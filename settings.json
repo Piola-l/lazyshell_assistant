@@ -4,5 +4,6 @@
   "language": "ru",
   "system": "Fedora Linux",
   "root_password": "1111",
-  "execute_root_automatically": "True"
+  "execute_root_automatically": "True",
+  "subprocess_terminal": "True"
 }

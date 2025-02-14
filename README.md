@@ -7,8 +7,9 @@ Supports **gnome-terminal** and **phyxis** terminal, but you can easily add your
 ### Settings.json
 
 - input_mode - Voice or text
-- read_aloud - Will be model asnwers re
+- read_aloud - Will be model asnwers voiced
 - language - Model answers language
 - system - Your system
 - root_password - Password for superuser. Won`t be given to model.
-- execute_root_automatically - Will execute _sudo_ commands without asking to enter password
+- execute*root_automatically - Will execute \_sudo* commands without asking to enter password
+- subprocess_terminal - Open terminal as a new task or not (Hightly reccomend set to "True")
