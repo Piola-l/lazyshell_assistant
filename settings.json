@@ -1,0 +1,7 @@
+{
+  "input_mode": "text",
+  "language": "ru",
+  "system": "Fedora Linux",
+  "root_password": "1111",
+  "execute_root_automatically": "True"
+}
