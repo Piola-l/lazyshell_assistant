@@ -1,4 +1,4 @@
-# Asshole AI Assistant written in python
+# Lazyshell is an asshole AI assistant written in python
 
 It's an AI Linux assistant powered by [Google Gemini Flash Lite 2.0](https://openrouter.ai/google/gemini-2.0-flash-lite-preview-02-05:free) and using OpenRouter free API because i'm poor. I've tried using LLaMA 3.2 but my PC is potato.
 Reading aloud powered by **local** TTS model [Piper](https://github.com/rhasspy/piper)
