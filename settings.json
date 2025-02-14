@@ -1,5 +1,6 @@
 {
   "input_mode": "text",
+  "speaking":"True",
   "language": "ru",
   "system": "Fedora Linux",
   "root_password": "1111",

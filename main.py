@@ -5,21 +5,27 @@ import parser
 import speech_recognize
 import tts
 
+# ENV
+
 from dotenv import load_dotenv
 import os
 
 load_dotenv()  # Загружаем переменные из .env
 openrouter_api_key = os.getenv('OPENROUTER_API_KEY')
 
+#
+
+# Configure client
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
     api_key=openrouter_api_key,
 )
 
+# Open settings
 with open("settings.json", "r") as file:
     settings = json.load(file)  # Загружаем JSON в словарь
 
-# Храним историю сообщений
+# Messages history
 messages = [
     {
         "role": "system",
@@ -68,6 +74,9 @@ while True:
 
     messages.append({"role": "assistant", "content": bot_response})  # Добавляем ответ в историю
 
+    # Parse and execute commands
     commands = parser.parse(bot_response, root_password=settings["root_password"], auto_execute_root=bool(settings["execute_root_automatically"]))
-    print("commands:", commands)
     parser.execute(commands, execute=True)
+    
+    tts.generate_tts(bot_response)
+    tts.play_tts()
