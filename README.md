@@ -4,4 +4,11 @@ It's an AI Linux assistant powered by [Google Gemini Flash Lite 2.0](https://ope
 
 Supports **gnome-terminal** and **phyxis** terminal, but you can easily add yours!
 
-You can configure it in _settings.json_
+### Settings.json
+
+- input_mode - Voice or text
+- read_aloud - Will be model asnwers re
+- language - Model answers language
+- system - Your system
+- root_password - Password for superuser. Won`t be given to model.
+- execute_root_automatically - Will execute _sudo_ commands without asking to enter password

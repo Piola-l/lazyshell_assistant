@@ -34,7 +34,7 @@ messages = [
         Имя пользователя ПК - linuxuser.  
         Отвечай в следующем формате:  
         - Обычные команды в терминале заключай в $ (например, $ ls -la $). Не используй sudo.  
-        - Команды, которые необходимо исполнять от root, заключай в # (например, # dnf update #).
+        - Команды, которые следует исполнять от root, заключай в # (например, # dnf update #).
         
         Если ты чтото делаешь связанное с установкой то добавляй в конец команд -y чтобы не просить подтверждение у пользователя
         
@@ -78,5 +78,6 @@ while True:
     commands = parser.parse(bot_response, root_password=settings["root_password"], auto_execute_root=bool(settings["execute_root_automatically"]))
     parser.execute(commands, execute=True)
     
-    tts.generate_tts(bot_response)
-    tts.play_tts()
+    if bool(settings["read_aloud"]):
+        tts.generate_tts(bot_response)
+        tts.play_tts()

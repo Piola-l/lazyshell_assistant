@@ -1,6 +1,6 @@
 {
-  "input_mode": "text",
-  "speaking":"True",
+  "input_mode": "voice",
+  "read_aloud":"True",
   "language": "ru",
   "system": "Fedora Linux",
   "root_password": "1111",
