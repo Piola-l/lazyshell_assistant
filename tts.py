@@ -1,8 +1,6 @@
 import os, subprocess
 import re
-import pygame
-
-pygame.init()
+from playsound import playsound
 
 def match(text):  # True - russian, False - english
     alphabet = set('абвгдеёжзийклмнопрстуфхцчшщъыьэюя')
@@ -20,7 +18,4 @@ def generate_tts(text, ru_tts_model: str, en_tts_model: str, *auto_play: bool):
 
 
 def play_tts():
-    pygame.mixer.music.load('output.wav')
-    pygame.mixer.music.play()
-    while pygame.mixer.music.get_busy():
-        pygame.time.Clock().tick(10)
+    playsound("output.wav")
