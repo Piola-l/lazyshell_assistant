@@ -5,7 +5,7 @@ import sounddevice as sd
 from vosk import Model, KaldiRecognizer
 
 # Загружаем модель
-model = Model("vosk/vosk-model-small-ru-0.22")  # Укажи путь к модели
+model = Model("/vosk-model-small-ru-0.22")  # Укажи путь к модели
 
 # Настраиваем аудио-поток
 samplerate = 16000
