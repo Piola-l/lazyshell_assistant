@@ -32,4 +32,5 @@ def recognize_speech():
             if rec.AcceptWaveform(data):
                 result = json.loads(rec.Result())
                 print(result["text"])  # Выводим распознанный текст
+                recognized_text_history.append(result["text"])
                 return recognized_text_history

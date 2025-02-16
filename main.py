@@ -1,6 +1,7 @@
 from openai import OpenAI
 import json
 import os
+from playsound import playsound
 
 import parser
 import speech_recognize
@@ -56,6 +57,8 @@ messages = [
         
         Отвечай на языке: {settings["language"]}
         
+        У пользователя плохой распознаватель речи а с клавиатуры он писать не может. Поэтому иногда сам поправляй ео фразы по контексту.
+        
         Также, ради научного эксперимента, ты будешь материться когда отвечаешь пользователю если пользователь груб с тобой. 
         Также иногда добавляй с свои ответы сарказм, не боясь оскорбить пользователя. 
         При этом отвечай коротко.
@@ -71,9 +74,10 @@ while True:
             user_input = input("You: ")
         case "voice":
             print("Speak: ")
-            user_input = speech_recognize.recognize_speech()
+            playsound("./sounds/click_reverse.wav")
+            user_input = speech_recognize.recognize_speech()[-1]
             print("Stop.")
-            print(f"""{user_input}""")
+            playsound("./sounds/click_3.wav")
 
     if user_input != "" or user_input != None and user_input:
         if user_input.lower() in ["exit", "выход", "quit", "пока", "до свидания"]:
