@@ -11,7 +11,8 @@ def generate_tts(text, ru_tts_model: str, en_tts_model: str, *auto_play: bool):
     model = ru_tts_model if match(text) else en_tts_model
     command = f"echo '{clean_text}' | ./piper/piper --model piper/{model} --output_file output.wav"
     
-    subprocess.run(command, shell=True, check=True)
+    #os.system(command)
+    subprocess.run(command, shell=True, check=False)
     
     if auto_play:
         play_tts()
