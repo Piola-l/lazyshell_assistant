@@ -10,6 +10,7 @@
   "subprocess_terminal": "True",
   "en_tts_model": "en_GB-alan-medium.onnx",
   "ru_tts_model": "ru_RU-dmitri-medium.onnx",
-  "speech_recognizer_timeout": 2,
-  "microphone_device_index": 0
+
+  "OUTDATED__speech_recognizer_timeout": 2,
+  "OUTDATED__microphone_device_index": 0
 }

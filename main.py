@@ -63,6 +63,7 @@ messages = [
     }
 ]
 
+recognized = [] # recognized speech history. To get last element use [-1]
 
 while True:
     match settings["input_mode"]:
@@ -70,10 +71,7 @@ while True:
             user_input = input("You: ")
         case "voice":
             print("Speak: ")
-            user_input = speech_recognize.recognize_speech(
-                recognizer_timeout=settings["speech_recognizer_timeout"],
-                microphone_device_index=settings["microphone_device_index"]
-            )
+            user_input = speech_recognize.recognize_speech()
             print("Stop.")
             print(f"""{user_input}""")
 

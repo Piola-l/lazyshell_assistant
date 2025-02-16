@@ -1,19 +1,36 @@
-import speech_recognition as sr
-import sounddevice as sd # For some reasong if i import this lisrary, speech_recognition stops spammint about bysy device in output :/
+import sys
+import json
+import queue
+import sounddevice as sd
+from vosk import Model, KaldiRecognizer
 
-#print(sd.query_devices())  # Выведет список доступных микрофонов
+# Загружаем модель
+model = Model("vosk/vosk-model-small-ru-0.22")  # Укажи путь к модели
 
-def recognize_speech(recognizer_timeout, microphone_device_index):
-    recognizer = sr.Recognizer()
+# Настраиваем аудио-поток
+samplerate = 16000
+device = None  # Можно указать конкретный микрофон, если их несколько
 
-    with sr.Microphone(device_index=microphone_device_index) as source:
-        audio = recognizer.listen(source, timeout=recognizer_timeout) #phrase_time_limit - жесткое ограничение, timeout - более мягкое, таймаут только когда перестает говорить
-    try:
-        recognized_text = recognizer.recognize_google(audio, language="ru-RU")
-        return recognized_text
-    except sr.UnknownValueError:
-        print("Не удалось распознать речь")
-        return ""
-    except sr.RequestError as e:
-        print(f"Ошибка сервиса распознавания речи; {e}")
-        return ""
+q = queue.Queue()
+
+recognized_text_history = []
+
+def callback(indata, frames, time, status):
+    if status:
+        print(status, file=sys.stderr)
+    q.put(bytes(indata))
+
+# Создаем распознаватель
+rec = KaldiRecognizer(model, samplerate)
+
+def recognize_speech():
+    with sd.RawInputStream(samplerate=samplerate, blocksize=8000, device=device,
+                        dtype="int16", channels=1, callback=callback):
+        print("Говори что-нибудь...")
+        while True:
+            data = q.get()
+            if rec.AcceptWaveform(data):
+                result = json.loads(rec.Result())
+                print(result["text"])  # Выводим распознанный текст
+                recognized_text.append(result["text"])
+                return recognized_text_history
